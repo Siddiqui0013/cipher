@@ -15,51 +15,110 @@ encryptBtn.addEventListener("click", ()=>{
 
 Ebtn.addEventListener("click", ()=>{
     // body.style.display = "none"
+    if (ePlain.value == "") {
+        alert("Please Enter a Text")
+    } else {
     const plainText = ePlain.value
     let CeaserArr= plainText.split("")
     let Ekey = Number.parseInt(eKey.value)
 
-    var EnArr = CeaserArr.map((ch)=>{
-           var ChCode = ch.charCodeAt()
-           var NewChCode = ChCode+Ekey
-           if (NewChCode < 'A'.charCodeAt(0)) {
-            // Wrap around to the end of the range (e.g., from 'A' to 'Z')
-            NewChCode += 26; // 26 characters in the English alphabet
+
+
+
+let EnArr = CeaserArr.map((ch) => {
+    console.log(ch);
+    let ChCode = ch.charCodeAt();
+    let NewChCode;
+
+    if (ch >= 'A' && ch <= 'Z') {
+        NewChCode = ChCode + Ekey;
+        if (NewChCode > 'Z'.charCodeAt(0)) {
+            NewChCode -= 26;
         }
-           var NewCh = String.fromCharCode(NewChCode)
-           return NewCh
-        })
+    } else if (ch >= 'a' && ch <= 'z') {
+        NewChCode = ChCode + Ekey;
+        if (NewChCode > 'z'.charCodeAt(0)) {
+            NewChCode -= 26;
+        }
+    } else {
+        // Handle non-alphabet characters
+        NewChCode = ChCode;
+    }
+
+    let NewCh = String.fromCharCode(NewChCode);
+    console.log(NewCh);
+    console.log("");
+
+    return NewCh;
+});
+
+
+
+
+//     let EnArr = CeaserArr.map((ch)=>{
+//            let ChCode = ch.charCodeAt()
+//            console.log(ChCode)
+//            let NewChCode
+//            if (ch >= 'A' && ch <= 'Z') {
+//             if (NewChCode > 'Z'.charCodeAt(0)) {
+//                 NewChCode -= 26;
+//             }
+//         }
+//         else if (ch >= 'a' && ch <= 'z') {
+//             if (NewChCode > 'Z'.charCodeAt(0)) {
+//                 NewChCode -= 26;
+//             }
+//             // NewChCode = ChCode+Ekey
+//         }
+//         NewChCode = ChCode+Ekey
+
+//            let NewCh = String.fromCharCode(NewChCode)
+//            return NewCh
+//         })
         
         const EnString = EnArr.join('')
 
         enSolution.style.display = "block"
         eText.value = EnString
         console.log(EnString)
+    }
 })
 
-Decryptbtn.addEventListener("click", ()=>{
-    const ceaser = ceaserText.value
-    console.log(ceaser)
-    let CeaserArr= ceaser.split("")
-    let Dkey = Number.parseInt(dKey.value)
+Decryptbtn.addEventListener("click", () => {
+    if (ceaserText.value == "") {
+        alert("Please Enter a Text");
+    } else {
+        const ceaser = ceaserText.value;
+        let CeaserArr = ceaser.split("");
+        let Dkey = Number.parseInt(dKey.value);
 
-    var DeArr = CeaserArr.map((ch)=>{
-           var ChCode = ch.charCodeAt()
-           var NewChCode = ChCode-Dkey
-           if (NewChCode < 'A'.charCodeAt(0)) {
-            // Wrap around to the end of the range (e.g., from 'A' to 'Z')
-            NewChCode += 26; // 26 characters in the English alphabet
-        }
-           var NewCh = String.fromCharCode(NewChCode)
-           return NewCh
-        })
-        
-        const EnString = DeArr.join('')
+        let DeArr = CeaserArr.map((ch) => {
+            if (ch >= 'A' && ch <= 'Z') {
+                let ChCode = ch.charCodeAt();
+                let NewChCode = ChCode - Dkey;
+                if (NewChCode < 'A'.charCodeAt(0)) {
+                    NewChCode += 26; // Wrap around to the end of the range
+                }
+                return String.fromCharCode(NewChCode);
+            } else if (ch >= 'a' && ch <= 'z') {
+                let ChCode = ch.charCodeAt();
+                let NewChCode = ChCode - Dkey;
+                if (NewChCode < 'a'.charCodeAt(0)) {
+                    NewChCode += 26; // Wrap around to the end of the range
+                }
+                return String.fromCharCode(NewChCode);
+            } else {
+                // Handle non-alphabet characters by returning them as is
+                return ch;
+            }
+        });
 
-        deSolution.style.display = "block"
-        dText.value = EnString
-        console.log(EnString)
-})
+        const EnString = DeArr.join('');
+
+        deSolution.style.display = "block";
+        dText.value = EnString;
+    }
+});
 
 
 
@@ -70,3 +129,135 @@ Decryptbtn.addEventListener("click", ()=>{
 
 
 
+// Hide these elements initially
+// enSolution.style.display = "none";
+// deSolution.style.display = "none";
+
+// // Event listeners
+// decryptBtn.addEventListener("click", () => {
+//     decrypt.style.display = "block";
+//     encrypt.style.display = "none";
+// });
+
+// encryptBtn.addEventListener("click", () => {
+//     decrypt.style.display = "none";
+//     encrypt.style.display = "block";
+// });
+
+// function processText(input, output, key, isEncryption) {
+//     if (input.value == "") {
+//         alert("Please Enter a Text");
+//     } else {
+//         const plainText = input.value;
+//         const CeaserArr = plainText.split("");
+//         const Ekey = Number.parseInt(key.value);
+
+//         const EnArr = CeaserArr.map((ch) => {
+//             const ChCode = ch.charCodeAt();
+//             let NewChCode;
+
+//             if (ch >= 'A' && ch <= 'Z') {
+//                 NewChCode = isEncryption ? ChCode + Ekey : ChCode - Ekey;
+//                 if (isEncryption && NewChCode > 'Z'.charCodeAt(0)) {
+//                     NewChCode -= 26;
+//                 } else if (!isEncryption && NewChCode < 'A'.charCodeAt(0)) {
+//                     NewChCode += 26;
+//                 }
+//             } else if (ch >= 'a' && ch <= 'z') {
+//                 NewChCode = isEncryption ? ChCode + Ekey : ChCode - Ekey;
+//                 if (isEncryption && NewChCode > 'z'.charCodeAt(0)) {
+//                     NewChCode -= 26;
+//                 } else if (!isEncryption && NewChCode < 'a'.charCodeAt(0)) {
+//                     NewChCode += 26;
+//                 }
+//             } else {
+//                 NewChCode = ChCode; // Keep non-alphabet characters unchanged
+//             }
+
+//             const NewCh = String.fromCharCode(NewChCode);
+//             return NewCh;
+//         });
+
+//         const EnString = EnArr.join("");
+
+//         output.style.display = "block";
+//         output.value = EnString;
+//     }
+// }
+
+// Ebtn.addEventListener("click", () => {
+//     processText(ePlain, eText, eKey, true);
+// });
+
+// Decryptbtn.addEventListener("click", () => {
+//     processText(ceaserText, dText, dKey, false);
+// });
+
+// let plainText = "xyz"
+// let CeaserArr= plainText.split("")
+//     let Ekey = 3
+
+//     let EnArr = CeaserArr.map((ch)=>{
+//         console.log(ch)
+//            let ChCode = ch.charCodeAt()
+//         //    console.log(ChCode)
+//            let NewChCode
+//            if (ch >= 'A' && ch <= 'Z') {
+//             if (NewChCode > 'Z'.charCodeAt(0)) {
+//                 NewChCode -= 26;
+//             }
+//         }
+//         else if (ch >= 'a' && ch <= 'z') {
+//             if (NewChCode > 'Z'.charCodeAt(0)) {
+//                 NewChCode -= 26;
+//             }
+//             // NewChCode = ChCode+Ekey
+//         }
+//         NewChCode = ChCode+Ekey
+
+//            let NewCh = String.fromCharCode(NewChCode)
+//            console.log(NewCh)
+//            console.log("")
+
+//            return NewCh
+//         })
+//         console.log(EnArr)
+
+
+
+
+
+
+
+// let plainText = "XYZ 69";
+// let CeaserArr = plainText.split("");
+// let Ekey = 3;
+
+// let EnArr = CeaserArr.map((ch) => {
+//     console.log(ch);
+//     let ChCode = ch.charCodeAt();
+//     let NewChCode;
+
+//     if (ch >= 'A' && ch <= 'Z') {
+//         NewChCode = ChCode + Ekey;
+//         if (NewChCode > 'Z'.charCodeAt(0)) {
+//             NewChCode -= 26;
+//         }
+//     } else if (ch >= 'a' && ch <= 'z') {
+//         NewChCode = ChCode + Ekey;
+//         if (NewChCode > 'z'.charCodeAt(0)) {
+//             NewChCode -= 26;
+//         }
+//     } else {
+//         // Handle non-alphabet characters
+//         NewChCode = ChCode;
+//     }
+
+//     let NewCh = String.fromCharCode(NewChCode);
+//     console.log(NewCh);
+//     console.log("");
+
+//     return NewCh;
+// });
+
+// console.log(EnArr);
